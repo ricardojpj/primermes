@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Gianella, mi Gordita ❤️</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;750&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-cream: #fffafb;
+            --bg-soft-yellow: #fff4f5;
+            --sunflower: #d8899b;
+            --sunflower-dark: #a84f68;
+            --sunflower-light: #fdecef;
+            --text-dark: #432c35;
+            --text-muted: #80616c;
+            --white: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(168, 79, 104, 0.20);
+            --shadow: 0 10px 30px rgba(168, 79, 104, 0.10);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        #welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #fffafb 0%, #fdecef 55%, #f9e1e7 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            text-align: center;
+            padding: 2rem;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        #welcome-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .hero-title-main {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(3.5rem, 8vw, 6rem);
+            color: var(--sunflower-dark);
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 10px rgba(245, 176, 65, 0.2);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: var(--text-dark);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .hero-quote {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+            font-style: italic;
+        }
+
+        .btn-open {
+            background: linear-gradient(135deg, #d8899b 0%, #a84f68 100%);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(168, 79, 104, 0.28);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-open:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(168, 79, 104, 0.4);
+        }
+
+        main {
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        main.visible {
+            opacity: 1;
+        }
+
+        header.site-header {
+            text-align: center;
+            padding: 3rem 1rem 1rem;
+            background: linear-gradient(to bottom, var(--bg-soft-yellow), transparent);
+        }
+
+        .site-logo {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: var(--sunflower-dark);
+        }
+
+        section {
+            padding: 5rem 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h2.section-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(2.5rem, 5vw, 3.8rem);
+            color: var(--sunflower-dark);
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        h2.section-title::after {
+            content: '♥';
+            display: block;
+            font-size: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .main-message-content {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .main-message-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            color: var(--sunflower-dark);
+            margin-top: 1.5rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+        }
+
+        .gallery-item {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--card-border);
+            text-align: center;
+        }
+
+        .gallery-img-container {
+            width: 100%;
+            height: 200px;
+            background: #fff1f4;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .gallery-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-text {
+            padding: 1.2rem;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .letters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .letter-card {
+            background: linear-gradient(135deg, #fff, #fff1f4);
+            border: 2px dashed var(--sunflower);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .letter-card:hover {
+            transform: translateY(-5px);
+            border-style: solid;
+        }
+
+        .letter-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .letter-title {
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(60, 48, 36, 0.6);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 1.5rem;
+        }
+
+        .modal-content {
+            background: var(--bg-cream);
+            padding: 2.5rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border: 2px solid var(--sunflower);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        .modal-body {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-top: 1rem;
+            line-height: 1.8;
+            font-style: italic;
+        }
+
+        .poem-container {
+            background: linear-gradient(to bottom, #fff, #fff1f4);
+            border-left: 5px solid var(--sunflower);
+            padding: 3rem;
+            border-radius: 0 20px 20px 0;
+            box-shadow: var(--shadow);
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .poem-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.4rem, 3vw, 1.8rem);
+            color: var(--text-dark);
+            text-align: center;
+            line-height: 2.2;
+        }
+
+        .interactive-box {
+            text-align: center;
+            background: var(--white);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--card-border);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .btn-discover {
+            background: var(--sunflower);
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(168, 79, 104, 0.28);
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-discover:hover {
+            background: var(--sunflower-dark);
+            transform: scale(1.05);
+        }
+
+        .love-message-display {
+            font-size: 1.25rem;
+            color: var(--sunflower-dark);
+            font-family: 'Dancing Script', cursive;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .counters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            text-align: center;
+        }
+
+        .counter-card {
+            background: var(--white);
+            padding: 2rem 1rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--card-border);
+        }
+
+        .counter-number {
+            font-size: 2.5rem;
+            color: var(--sunflower-dark);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .counter-label {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        .special-moment-section {
+            background: linear-gradient(135deg, #2c221e, #1a1412);
+            color: var(--white);
+            text-align: center;
+            border-radius: 25px;
+            padding: 4rem 2rem;
+            margin: 3rem auto;
+            max-width: 900px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .special-moment-section h2 {
+            color: var(--sunflower);
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .special-quote {
+            font-size: 1.5rem;
+            font-style: italic;
+            color: #ffeef2;
+            margin-bottom: 1.5rem;
+        }
+
+        .special-sub {
+            font-size: 1.1rem;
+            color: #d8899b;
+        }
+
+        .floating-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 999;
+        }
+
+        .control-btn {
+            background: var(--white);
+            border: 2px solid var(--sunflower);
+            color: var(--sunflower-dark);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: var(--sunflower);
+            color: var(--white);
+            transform: scale(1.1);
+        }
+
+        .personal-photos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .photo-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--card-border);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .photo-frame {
+            width: 100%;
+            height: 250px;
+            background: #fff1f4;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .footer-section {
+            text-align: center;
+            padding: 5rem 1rem;
+            background: linear-gradient(to top, #fff4f5, transparent);
+        }
+
+        .footer-sunflower {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: pulse-flower 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-flower {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .footer-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: var(--sunflower-dark);
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+        }
+
+        #petals-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 98;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="petals-canvas"></canvas>
+
+    <!-- Portada / Hero -->
+    <div id="welcome-screen">
+        <h1 class="hero-title-main">Nana</h1>
+        <p class="hero-subtitle">Para el amor de mi vida ❤️</p>
+        <p class="hero-quote">&laquo;&ldquo;Entre millones de personas, mi coraz&oacute;n siempre te elegir&iacute;a a ti.&rdquo;&raquo;</p>
+        <button class="btn-open" id="open-gift-btn">
+            Abrir mi regalo ❤️
+        </button>
+    </div>
+
+    <!-- Contenido Principal -->
+    <main id="main-content">
+        <header class="site-header">
+            <div class="site-logo">Nana ❤️</div>
+        </header>
+
+        <!-- Mensaje Principal -->
+        <section>
+            <div class="glass-card">
+                <h2 class="section-title">Para ti ❤️</h2>
+                <div class="main-message-content">
+                    <p>&laquo;&ldquo;Gordita, hice este pequeño rincón pensando solamente en ti. Aunque estemos en países distintos, quiero que cada palabra te recuerde que estás presente en mi corazón. Quizás no existan palabras suficientes para explicar todo lo que siento, pero sí puedo recordarte algo: te amo, te extraño y te elegiría una y otra vez.&rdquo;&raquo;</p>
+                    <div class="signature">Con todo mi amor ❤️</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Nuestro aniversario -->
+        <section>
+            <div class="special-moment-section" style="margin:0 auto;">
+                <h2>1 año y 1 mes contigo ❤️</h2>
+                <p class="special-quote">Un año, un mes y todavía siento que volvería a elegirte desde el primer día.</p>
+                <p class="special-sub">Hoy no celebro solamente el tiempo que llevamos juntos; celebro cada risa, cada abrazo, cada conversación y cada momento que nos ha llevado hasta aquí.</p>
+            </div>
+        </section>
+
+                <!-- Una historia a distancia -->
+        <section>
+            <div class="glass-card">
+                <h2 class="section-title">Dos países, un solo destino ❤️</h2>
+                <div class="main-message-content">
+                    <p>España y Perú pueden estar separados por miles de kilómetros, pero eso nunca ha cambiado lo que siento por ti.</p>
+                    <p>Me encanta acompañarte, escucharte y estar para ti incluso cuando no puedo abrazarte. Cada llamada, cada mensaje y cada reencuentro hace que todo valga la pena.</p>
+                    <p><strong>Y si me preguntas dónde quiero estar:</strong> contigo, Gordita.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cartas de Amor -->
+        <section>
+            <h2 class="section-title">Cartitas para ti 💌</h2>
+            <div class="letters-grid">
+                <div class="letter-card" onclick="openLetter(1)">
+                    <div class="letter-icon">💌</div>
+                    <div class="letter-title">Para ti</div>
+                    <p style="font-size:0.9rem; color:var(--text-muted); margin-top:5px;">Te amo, incluso a la distancia</p>
+                </div>
+                <div class="letter-card" onclick="openLetter(2)">
+                    <div class="letter-icon">💌</div>
+                    <div class="letter-title">Carta 02</div>
+                    <p style="font-size:0.9rem; color:var(--text-muted); margin-top:5px;">Si pudiera detener el tiempo...</p>
+                </div>
+                <div class="letter-card" onclick="openLetter(3)">
+                    <div class="letter-icon">💌</div>
+                    <div class="letter-title">Carta 03</div>
+                    <p style="font-size:0.9rem; color:var(--text-muted); margin-top:5px;">Tú eres mi lugar seguro</p>
+                </div>
+                <div class="letter-card" onclick="openLetter(4)">
+                    <div class="letter-icon">💌</div>
+                    <div class="letter-title">Carta 04</div>
+                    <p style="font-size:0.9rem; color:var(--text-muted); margin-top:5px;">Siempre tú</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Poema para Ella -->
+        <section>
+            <h2 class="section-title">Un poema para la mujer que amo ❤️</h2>
+            <div class="poem-container">
+                <div class="poem-text">
+                    Tus ojos tienen la calma del sol al atardecer,<br>
+                    y tu sonrisa ilumina todo mi amanecer.<br>
+                    Tus cachetitos son ternura hecha piel,<br>
+                    el rincón favorito donde quiero poner mi querer.<br><br>
+                    Eres la brisa suave, el calor en el invierno frío,<br>
+                    el regalo más hermoso que la vida me ha concedido.<br>
+                    Eres mi amor bonito, mi calma y mi paz,<br>
+                    no hay nadie en el mundo que se le compare jamás.<br><br>
+                    Te amo, mi vida.<br>
+                    — Con todo mi amor ❤️
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Interactiva -->
+        <section>
+            <div class="interactive-box">
+                <h2 class="section-title" style="margin-bottom: 1.5rem;">¿Sabes cuánto te amo?</h2>
+                <button class="btn-discover" id="btn-love-msg">Descubrir</button>
+                <div class="love-message-display" id="love-msg-display">Haz clic para descubrir un mensaje secreto 💛</div>
+            </div>
+        </section>
+
+        <!-- Contador del Amor -->
+        <section>
+            <h2 class="section-title">1 año y 1 mes, y todavía elegiría cada día contigo ❤️</h2>
+            <div class="counters-grid">
+                <div class="counter-card">
+                    <div class="counter-number">∞</div>
+                    <div class="counter-label">días queriéndote</div>
+                </div>
+                <div class="counter-card">
+                    <div class="counter-number">∞</div>
+                    <div class="counter-label">razones para amarte</div>
+                </div>
+                <div class="counter-card">
+                    <div class="counter-number">∞</div>
+                    <div class="counter-label">recuerdos por crear</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Momento Especial -->
+        <section>
+            <div class="special-moment-section">
+                <h2>Y si algún día olvidas cuánto te amo...</h2>
+                <p class="special-quote">&laquo;Vuelve aquí.&raquo;</p>
+                <p class="special-sub">Siempre tendrás un lugar para ti, aquí y en mi corazón.</p>
+            </div>
+        </section>
+
+        <!-- Footer Final -->
+        <footer class="footer-section">
+            <div class="footer-sunflower">❤️</div>
+            <div class="footer-title">Nana ❤️</div>
+            <p class="footer-text">Te amo. ❤️</p>
+            <p style="font-style: italic; color: var(--text-muted); max-width: 500px; margin: 0 auto 1.5rem;">&laquo;Gracias por existir, por llegar a mi vida y por hacer que incluso la distancia se sienta un poquito más pequeña. Te extraño.&raquo;</p>
+            <div style="font-family: 'Dancing Script', cursive; font-size: 1.8rem; color: var(--sunflower-dark);">Con amor, siempre ❤️</div>
+        </footer>
+    </main>
+
+    <!-- Controles Flotantes -->
+    <div class="floating-controls">
+        <button class="control-btn" id="btn-toggle-music" title="Música">▶</button>
+        <button class="control-btn" id="btn-toggle-petals" title="Pétalos">🌸</button>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="Pablo Alborán - Solamente tú (Letra) [BK3Ai81QYH8].mp3.mpeg" type="audio/mpeg">
+    </audio>
+
+    <!-- Modal Dinámico para Cartas -->
+    <div class="modal" id="letter-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeLetter()">&times;</button>
+            <h3 id="modal-title" style="color: var(--sunflower-dark); font-family: 'Dancing Script', cursive; font-size: 2.2rem;"></h3>
+            <div class="modal-body" id="modal-text"></div>
+        </div>
+    </div>
+
+    <script>
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const mainContent = document.getElementById('main-content');
+        const openGiftBtn = document.getElementById('open-gift-btn');
+
+        let giftOpened = false;
+        function openGift() {
+            if (giftOpened) return;
+            giftOpened = true;
+            welcomeScreen.classList.add('hidden');
+            mainContent.classList.add('visible');
+            startPetals();
+        }
+        openGiftBtn.addEventListener('click', openGift);
+        openGiftBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            openGift();
+        });
+
+        const lettersData = {
+            1: {
+                title: "Te amo, Nana",
+                text: "Cada mensaje, cada llamada y cada momento contigo hace que la distancia entre Perú y España se sienta un poquito más pequeña. Eres mi persona favorita, mi alegría y ese lugar al que siempre quiero volver."
+            },
+            2: {
+                title: "Si pudiera detener el tiempo...",
+                text: "Lo haría en cada instante contigo: en nuestras conversaciones, en nuestras risas y en esos momentos en los que simplemente quisiera abrazarte y no soltarte. Quiero guardar cada recuerdo para siempre."
+            },
+            3: {
+                title: "Tú eres mi lugar seguro",
+                text: "No importa si estás en España y yo en Perú. Escuchar tu voz, leerte o saber de ti hace que todo se acomode un poquito. Contigo encontré un hogar que no depende de un lugar."
+            },
+            4: {
+                title: "Siempre tú",
+                text: "Si tuviera que volver a elegir entre millones de caminos, volvería a buscarte. Te elegiría a ti, Nana, en esta vida y en todas las que pudiera imaginar."
+            }
+        };
+
+        const modal = document.getElementById('letter-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalText = document.getElementById('modal-text');
+
+        function openLetter(id) {
+            modalTitle.innerText = lettersData[id].title;
+            modalText.innerText = lettersData[id].text;
+            modal.style.display = 'flex';
+        }
+
+        function closeLetter() {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeLetter();
+            }
+        }
+
+        const loveMessages = [
+            "Te amo más de lo que puedo explicar. ❤️",
+            "Te extraño incluso después de hablar contigo.",
+            "No importa la distancia: sigues siendo mi lugar favorito.",
+            "Te amo hoy, mañana y en todos los días que todavía nos quedan.",
+            "Nana, volvería a elegirte una y otra vez. ❤️",
+            "Si pudiera volver a empezar, volvería a buscarte a ti.",
+            "Eres una de las cosas más bonitas que me ha regalado la vida.",
+            "Perú o España, cerca o lejos: mi corazón siempre está contigo."
+        ];
+
+        const btnLoveMsg = document.getElementById('btn-love-msg');
+        const loveMsgDisplay = document.getElementById('love-msg-display');
+
+        btnLoveMsg.addEventListener('click', () => {
+            const randomIndex = Math.floor(Math.random() * loveMessages.length);
+            loveMsgDisplay.style.opacity = 0;
+            setTimeout(() => {
+                loveMsgDisplay.innerText = loveMessages[randomIndex];
+                loveMsgDisplay.style.opacity = 1;
+            }, 200);
+        });
+
+        loveMsgDisplay.style.transition = 'opacity 0.3s ease';
+
+        const canvas = document.getElementById('petals-canvas');
+        const ctx = canvas.getContext('2d');
+        let petals = [];
+        let petalsActive = true;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Petal {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -20;
+                this.size = Math.random() * 6 + 4;
+                this.speedY = Math.random() * 1 + 0.8;
+                this.speedX = Math.random() * 0.8 - 0.4;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 1.5 - 0.75;
+                this.opacity = Math.random() * 0.4 + 0.4;
+            }
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.rotation += this.rotationSpeed;
+                if (this.y > canvas.height + 20) {
+                    this.reset();
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.rotation * Math.PI) / 180);
+                ctx.fillStyle = `rgba(216, 137, 155, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.ellipse(0, 0, this.size, this.size / 2, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 20; i++) {
+            petals.push(new Petal());
+        }
+
+        function animatePetals() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (petalsActive) {
+                petals.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+            }
+            requestAnimationFrame(animatePetals);
+        }
+
+        function startPetals() {
+            animatePetals();
+        }
+
+        const btnTogglePetals = document.getElementById('btn-toggle-petals');
+        btnTogglePetals.addEventListener('click', () => {
+            petalsActive = !petalsActive;
+            btnTogglePetals.style.opacity = petalsActive ? '1' : '0.4';
+        });
+
+        const bgMusic = document.getElementById('bg-music');
+        const btnToggleMusic = document.getElementById('btn-toggle-music');
+        let isPlaying = false;
+
+        btnToggleMusic.addEventListener('click', () => {
+            if (isPlaying) {
+                bgMusic.pause();
+                btnToggleMusic.innerText = '▶';
+                isPlaying = false;
+            } else {
+                bgMusic.play().then(() => {
+                    btnToggleMusic.innerText = '⏸';
+                    isPlaying = true;
+                }).catch(e => {
+                    alert("Para reproducir música, recuerda colocar un archivo llamado 'tu-cancion.mp3' en la misma carpeta.");
+                });
+            }
+        });
+    </script>
+</body>
+</html>
